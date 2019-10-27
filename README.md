@@ -10,32 +10,32 @@
 
 ​		1、首页（商品展示）：商品分类是根据后台数据自动生成的
 
-![1572178544530](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572178544530.png)
+![1572178544530](./resadme_images/1572178544530.png)
 
 ​		2、注册界面：
 
-![1572179357210](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179357210.png)
+![1572179357210](./resadme_images/1572179357210.png)
 
 ​		3、登录界面：
 
-![1572179394899](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179394899.png)
+![1572179394899](./resadme_images/1572179394899.png)
 
 ​		4、商品详细页面：
 
-![1572179654796](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179654796.png)
+![1572179654796](./resadme_images/1572179654796.png)
 
 ​		5、加入购物车页面：
 
-![1572179696817](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179696817.png)
+![1572179696817](./resadme_images/1572179696817.png)
 
 ​		6、选择详细地址界面：
 
-![1572179791465](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179791465.png)
+![1572179791465](./resadme_images/1572179791465.png)
 
 ​		7、订单界面：里面多余的订单是我测试时保留下来的，忘了删除
 
-![1572179885568](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179885568.png)
+![1572179885568](./resadme_images/1572179885568.png)
 
 ​		8、商品收藏界面：里面多余的商品是我测试收藏时保留下来的，忘了删除
 
-![1572179946633](C:\Users\xusha\Desktop\django-shopping\resadme_images\1572179946633.png)
+![1572179946633](./resadme_images/1572179946633.png)
