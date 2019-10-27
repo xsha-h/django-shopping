@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>填写地址</title>
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/shop_gouwuche.css" %}" type="text/css" />
+<script type="text/javascript" src="{% static "js/jquery.goodnums.js" %}" ></script>
+<script type="text/javascript" src="{% static "js/shop_gouwuche.js" %}" ></script>
+<style type="text/css">
+    .shop_bd_shdz_title{width:1000px; margin-top: 10px; height:50px; line-height: 50px; overflow: hidden; background-color:#F8F8F8;}
+    .shop_bd_shdz_title h3{width:120px; text-align: center; height:40px; line-height: 40px; font-size: 14px; font-weight: bold;  background:#FFF; border:1px solid #E8E8E8; border-radius:4px 4px 0 0; float: left;  position: relative; top:10px; left:10px; border-bottom: none;}
+    .shop_bd_shdz_title p{float: right;}
+    .shop_bd_shdz_title p a{margin:0 8px; color:#555555;}
+
+	.shop_bd_shdz_lists{width:1000px;}
+	.shop_bd_shdz_lists ul{width:1000px;}
+	.shop_bd_shdz_lists ul li{width:980px; border-radius: 3px; margin:5px 0; padding-left:18px; line-height: 40px; height:40px; border:1px solid #FFE580; background-color:#FFF5CC;}
+	.shop_bd_shdz_lists ul li label{color:#626A73; font-weight: bold;}
+	.shop_bd_shdz_lists ul li label span{padding:10px;}
+	.shop_bd_shdz_lists ul li em{margin:0 4px; color:#626A73;}
+
+	.shop_bd_shdz{width:1000px; margin:10px auto 0;}
+	.shop_bd_shdz_new{border:1px solid #ccc; width:998px;}
+	.shop_bd_shdz_new div.title{width:990px; padding-left:8px; line-height:35px; height:35px; border-bottom:1px solid #ccc; background-color:#F2F2F2; font-color:#656565; font-weight: bold; font-size:14px;}
+	.shdz_new_form{width:980px; padding:9px;}
+	.shdz_new_form ul{width:100%;}
+	.shdz_new_form ul li{clear:both; width:100%; padding:5px 0; height:25px; line-height: 25px;}
+	.shdz_new_form ul li label{float:left;width:100px; text-align: right; padding-right: 10px;}
+	.shdz_new_form ul li label span{color:#f00; font-weight: bold; font-size:14px; position: relative; left:-3px; top:2px;}
+    </style>
+
+<script type="text/javascript">
+	jQuery(function(){
+		jQuery("#new_add_shdz_btn").toggle(function(){
+			jQuery("#new_add_shdz_contents").show(500);
+		},function(){
+			jQuery("#new_add_shdz_contents").hide(500);
+		});
+		jQuery("input[type=submit]").bind("click", function(event){
+		    event.preventDefault();
+		    var name = jQuery("input[name=name]").val();
+		    var addr = jQuery("input[name=addr]").val();
+		    var postal = jQuery("input[name=postal]").val();
+		    var tel = jQuery("input[name=tel]").val();
+            var csrftoken = jQuery("input[name=csrfmiddlewaretoken]").val();
+
+		    var url = "http://127.0.0.1:8000/operations/add_addr/";
+		    data = {"name": name, "addr": addr, "postal": postal, "tel": tel, "csrfmiddlewaretoken": csrftoken};
+		    jQuery.post(url, data, function(){
+		        jQuery("#new_add_shdz_contents").hide(500);
+		        window.location.reload()
+            });
+        });
+
+		jQuery("#add_order_btn").bind("click", function(){
+		    var idsE = jQuery("tr input.commodity_id");
+		    var ids = [];
+            jQuery.each(idsE, function(index, item){
+                ids.push(+$(item).val());
+            });
+            var numsE = jQuery("tr input.good_nums");
+            var nums = [];
+            jQuery.each(numsE, function(index, item){
+                nums.push(+$(item).val());
+            });
+            var address_id = jQuery("input[type=radio]:checked").val();
+            var all_price = jQuery("#good_zongjia").text();
+            console.log(address_id, all_price);
+            var csrftoken = jQuery("input[name=csrfmiddlewaretoken]").val();
+            var url = "http://127.0.0.1:8000/operations/add_order/";
+            var data = {
+                "ids": ids.toString(),
+                "nums": nums.toString(),
+                "all_price": all_price,
+                "address_id": address_id,
+                "csrfmiddlewaretoken": csrftoken};
+            $.post(url, data, function (data){
+                window.location.href = "http://127.0.0.1:8000/operations/order/"
+            });
+        });
+	});
+    var add_c = function(id){
+        var commodity_id =  id;
+        var csrftoken = $("input[name=csrfmiddlewaretoken]").val();
+        if(confirm("确定将该商品收入收藏夹？")){
+            $.post("http://127.0.0.1:8000/operations/add_favor", {"commodity_id": commodity_id, "csrfmiddlewaretoken": csrftoken},
+            function (data) {
+                alert("收藏成功！");
+            })
+        }
+    }
+	</script>
+{% endblock %}
+
+{% block location %}
+<div class="shop_hd_breadcrumb">
+    <strong>当前位置：</strong>
+    <span>
+        <a href="{% url "commodity:index" %}">首页</a>&nbsp;›&nbsp;
+        <a href="">我的商城</a>&nbsp;›&nbsp;
+        <a href="">我的购物车</a>
+    </span>
+</div>
+<div class="clear"></div>
+{% endblock %}
+
+{% block content %}
+<!-- 购物车 Body -->
+<div class="shop_gwc_bd clearfix">
+    <div class="shop_gwc_bd_contents clearfix">
+
+        <!-- 购物流程导航 -->
+        <div class="shop_gwc_bd_contents_lc clearfix">
+            <ul>
+                <li class="step_a">确认购物清单</li>
+                <li class="step_b hover_b">确认收货人资料及送货方式</li>
+                <li class="step_c">购买完成</li>
+            </ul>
+        </div>
+        <!-- 购物流程导航 End -->
+        <div class="clear"></div>
+        <!-- 收货地址 title -->
+        <div class="shop_bd_shdz_title">
+            <h3>收货人地址</h3>
+            <p><a href="javasrcipt:void(0);" id="new_add_shdz_btn">新增收货地址</a><a href="javascript:void(0);">管理收货地址</a></p>
+        </div>
+        <div class="clear"></div>
+        <!-- 收货人地址 Title End -->
+        <div class="shop_bd_shdz clearfix">
+            <div class="shop_bd_shdz_lists clearfix">
+                <ul>
+                    {% for address in addresss %}
+                    <li>
+                        <label>寄送至：<span><input type="radio" name="address" value="{{ address.id }}"/></span></label>
+                        <em>{{ address.addr }}</em><em>{{ address.name }}(收)</em><em>{{ address.tel }}</em>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- 新增收货地址 -->
+            <div id="new_add_shdz_contents" style="display:none;" class="shop_bd_shdz_new clearfix">
+                <div class="title">新增收货地址</div>
+                <div class="shdz_new_form">
+                    <form>
+                        {% csrf_token %}
+                        <ul>
+                            <li><label for=""><span>*</span>收货人姓名：</label><input type="text" name="name" class="name" /></li>
+                            <li><label for=""><span>*</span>详细地址：</label><input type="text" name="addr" class="xiangxi" /></li>
+                            <li><label for=""><span></span>邮政编码：</label><input type="text" name="postal" class="youbian" /></li>
+                            <li><label for=""><span>*</span>手机号：</label><input type="text" name="tel" class="shouji" /></li>
+                            <li><label for="">&nbsp;</label><input type="submit" value="增加收货地址" /></li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <!-- 新增收货地址 End -->
+        </div>
+        <div class="clear"></div>
+        <!-- 购物车列表 -->
+        <div class="shop_bd_shdz_title">
+            <h3>确认购物清单</h3>
+        </div>
+        <div class="clear"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="2"><span>商品</span></th>
+                    <th><span>单价(元)</span></th>
+                    <th><span>数量</span></th>
+                    <th><span>小计</span></th>
+                    <th><span>操作</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for commodity in commoditys %}
+                <tr id="commodity{{ commodity.id }}">
+                    <td class="gwc_list_pic"><a href=""><img src="{{ commodity.image.url }}" /></a></td>
+                    <td class="gwc_list_title"><a href="">{{ commodity.name }} </a></td>
+                    <td class="gwc_list_danjia"><span>￥<strong id="danjia_{{commodity.id}}">{{ commodity.actual_price }}</strong></span></td>
+                    <td class="gwc_list_shuliang">
+                        <span>
+                            <a class="good_num_jian this_good_nums" did="danjia_{{commodity.id}}" xid="xiaoji_{{commodity.id}}" ty="-" valId="goods_{{commodity.id}}" href="javascript:void(0);">-</a>
+                            <input type="hidden" value="{{ commodity.id }}" class="commodity_id">
+                            <input type="text" value="{{ commodity.nums }}" id="goods_{{commodity.id}}" class="good_nums" />
+                            <a href="javascript:void(0);" did="danjia_{{commodity.id}}" xid="xiaoji_{{commodity.id}}" ty="+" class="good_num_jia this_good_nums" valId="goods_{{commodity.id}}">+</a>
+                        </span>
+                    </td>
+                    <td class="gwc_list_xiaoji"><span>￥<strong id="xiaoji_{{commodity.id}}" class="good_xiaojis">{% widthratio commodity.actual_price 1 commodity.nums %}</strong></span></td>
+                    <td class="gwc_list_caozuo">
+                        <a href="javascript:void(0);" onclick="add_c({{ commodity.id }})">收藏</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia">{{ all_price }}</strong></span></div>
+                        <div class="clear"></div>
+                        <div class="gwc_foot_links">
+                            <a href="{% url "operations:flow" %}" class="go">返回上一步</a>
+                            <a href="javascript:void(0);" class="op" id="add_order_btn">确认收货地址</a>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <!-- 购物车列表 End -->
+
+    </div>
+</div>
+<!-- 购物车 Body End -->
+{% endblock %}

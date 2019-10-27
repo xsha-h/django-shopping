@@ -1,0 +1,494 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>收藏中心</title>
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/shop_manager.css" %}" type="text/css" />
+<link rel="stylesheet" href="{% static "css/shop_list.css" %}" type="text/css" />
+{% endblock %}
+
+{% block location %}
+<div class="shop_hd_breadcrumb">
+    <strong>当前位置：</strong>
+    <span>
+        <a href="">首页</a>&nbsp;›&nbsp;
+        <a href="">收藏中心</a>
+    </span>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 我的个人中心 -->
+<div class="shop_member_bd clearfix">
+    <!-- 左边导航 -->
+    <div class="shop_member_bd_left clearfix">
+
+        <div class="shop_member_bd_left_pic">
+            <a href="javascript:void(0);"><img src="{% static "images/avatar.png" %}" /></a>
+        </div>
+        <div class="clear"></div>
+
+        <dl>
+            <dt>我的交易</dt>
+            <dd><span><a href="">已购买商品</a></span></dd>
+            <dd><span><a href="">我的收藏</a></span></dd>
+            <dd><span><a href="">评价管理</a></span></dd>
+        </dl>
+
+        <dl>
+            <dt>我的账户</dt>
+            <dd><span><a href="">个人资料</a></span></dd>
+            <dd><span><a href="">密码修改</a></span></dd>
+            <dd><span><a href="">收货地址</a></span></dd>
+        </dl>
+
+    </div>
+    <!-- 左边导航 End -->
+
+    <!-- 右边购物列表 -->
+    <div class="shop_member_bd_right clearfix">
+
+        <div class="shop_meber_bd_good_lists clearfix">
+            <div class="title"><h3>我的收藏</h3></div>
+
+            <!-- 商品列表 -->
+        <div class="shop_bd_list_content clearfix">
+            <ul>
+                {% for favor in favors.object_list %}
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="{{ favor.commodity.image.url }}" /></a></dt>
+                        <dd class="title"><a href="">{{ favor.commodity.name }}</a></dd>
+                        <dd class="content">
+                            <span class="goods_jiage">￥<strong>{{ favor.commodity.actual_price }}</strong></span>
+                            <span class="goods_chengjiao">最近成交{{ favor.commodity.sale_nums }}笔</span>
+                        </dd>
+                    </dl>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="pagination">
+            <ul>
+                <li><a href="?{{ 1 }}"><span>首页</span></a></li>
+                    {% if favors.has_previous %}
+                    <li><a href="?{{ favors.previous_page_number.querystring }}"><span>上一页</span></a></li>
+                    {% endif %}
+					{% for page in favors.pages %}
+					    {% if page %}
+                            {% ifequal page favors.number %}
+                            <li><a href="#"><span class="currentpage">{{ page }}</span></a></li>
+                            {% else %}
+                            <li><a href="?{{ page.querystring }}"><span>{{ page }}</span></a></li>
+                            {% endifequal %}
+                        {% else %}
+                            ...
+                        {% endif %}
+					{% endfor %}
+                    {% if favors.has_next %}
+                     <li><a href="?{{ favors.next_page_number.querystring }}"><span>下一页</span></a></li>
+                    {% endif %}
+					<li><a href=""><span>末页</span></a></li>
+            </ul>
+        </div>
+        <!-- 商品列表 End -->
+
+        </div>
+    </div>
+    <!-- 右边购物列表 End -->
+
+</div>
+<!-- 我的个人中心 End -->
+{% endblock %}
+
+	<!-- 面包屑 End -->
+
+	<!-- Header End -->
+
+	<!-- 我的个人中心 -->
+	<div class="shop_member_bd clearfix">
+		<!-- 左边导航 -->
+		<div class="shop_member_bd_left clearfix">
+
+			<div class="shop_member_bd_left_pic">
+				<a href="javascript:void(0);"><img src="images/avatar.png" /></a>
+			</div>
+			<div class="clear"></div>
+
+			<dl>
+				<dt>我的交易</dt>
+				<dd><span><a href="">已购买商品</a></span></dd>
+				<dd><span><a href="">我的收藏</a></span></dd>
+				<dd><span><a href="">评价管理</a></span></dd>
+			</dl>
+
+			<dl>
+				<dt>我的账户</dt>
+				<dd><span><a href="">个人资料</a></span></dd>
+				<dd><span><a href="">密码修改</a></span></dd>
+				<dd><span><a href="">收货地址</a></span></dd>
+			</dl>
+
+		</div>
+		<!-- 左边导航 End -->
+
+		<!-- 右边购物列表 -->
+		<div class="shop_member_bd_right clearfix">
+
+			<div class="shop_meber_bd_good_lists clearfix">
+				<div class="title"><h3>我的收藏</h3></div>
+
+				<!-- 商品列表 -->
+			<div class="shop_bd_list_content clearfix">
+				<ul>
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+					<li>
+						<dl>
+							<dt><a href=""><img src="images/21151da3bdefc6d9a7120c991fe59800.jpg_small.jpg" /></a></dt>
+							<dd class="title"><a href="">OCIAIZO春装水洗做旧短外套复古磨白短款牛仔外套春01C1417</a></dd>
+							<dd class="content">
+								<span class="goods_jiage">￥<strong>249.00</strong></span>
+								<span class="goods_chengjiao">最近成交5笔</span>
+							</dd>
+						</dl>
+					</li>
+
+				</ul>
+			</div>
+			<div class="clear"></div>
+			<div class="pagination">
+				<ul><li><span>首页</span></li>
+					<li><span>上一页</span></li>
+					<li><span class="currentpage">1</span></li>
+					<li><span>下一页</span></li>
+					<li><span>末页</span></li>
+				</ul>
+			</div>
+			<!-- 商品列表 End -->
+
+			</div>
+		</div>
+		<!-- 右边购物列表 End -->
+
+	</div>
+	<!-- 我的个人中心 End -->
+
+	<!-- Footer - wll - 2013/3/24 -->
+	<div class="clear"></div>
+	<div class="shop_footer">
+            <div class="shop_footer_link">
+                <p>
+                    <a href="">首页</a>|
+                    <a href="">招聘英才</a>|
+                    <a href="">广告合作</a>|
+                    <a href="">关于briup</a>|
+                    <a href="">关于我们</a>
+                </p>
+            </div>
+            <div class="shop_footer_copy">
+                <p>Copyright 2004-2013 itcast Inc.,All rights reserved.</p>
+            </div>
+        </div>
+	<!-- Footer End -->
+</body>
+</html>

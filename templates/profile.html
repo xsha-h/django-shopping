@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>修改个人资料</title>
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/shop_manager.css" %}" type="text/css" />
+<link rel="stylesheet" href="{% static "css/shop_form.css" %}" type="text/css" />
+{% endblock %}
+
+{% block location %}
+<!-- 面包屑 注意首页没有 -->
+<div class="shop_hd_breadcrumb">
+    <strong>当前位置：</strong>
+    <span>
+        <a href="">首页</a>&nbsp;›&nbsp;
+        <a href="">我的商城</a>&nbsp;›&nbsp;
+        <a href="">已买到商品</a>
+    </span>
+</div>
+<div class="clear"></div>
+	<!-- 面包屑 End -->
+{% endblock %}
+
+{% block content %}
+<!-- 我的个人中心 -->
+<div class="shop_member_bd clearfix">
+    <!-- 左边导航 -->
+    <div class="shop_member_bd_left clearfix">
+
+        <div class="shop_member_bd_left_pic">
+            <a href="javascript:void(0);"><img src="{{ userinfo.avatar.url }}" /></a>
+        </div>
+        <div class="clear"></div>
+
+        <dl>
+            <dt>我的交易</dt>
+            <dd><span><a href="">已购买商品</a></span></dd>
+            <dd><span><a href="">我的收藏</a></span></dd>
+            <dd><span><a href="">评价管理</a></span></dd>
+        </dl>
+
+        <dl>
+            <dt>我的账户</dt>
+            <dd><span><a href="">个人资料</a></span></dd>
+            <dd><span><a href="">密码修改</a></span></dd>
+            <dd><span><a href="">收货地址</a></span></dd>
+        </dl>
+
+    </div>
+    <!-- 左边导航 End -->
+
+    <!-- 右边购物列表 -->
+    <div class="shop_member_bd_right clearfix">
+
+        <div class="shop_meber_bd_good_lists clearfix">
+            <div class="title"><h3>基本信息</h3></div>
+            <div class="clear"></div>
+            <div class="shop_home_form">
+                <form athion="" name="" class="shop_form" method="post" enctype="multipart/form-data">
+                    <ul>
+                        {% csrf_token %}
+                        <li><label>用户名称：</label>{{ request.user.username }}</li>
+                        <li><label>电子邮件：</label>{{ request.user.email }}</li>
+                        <li><label>真实姓名：</label><input type="text" name="last_name" class="truename form-text" value="{{ request.user.last_name }}"/></li>
+                        <li><label>用户头像：</label><input type="file" name="avatar" class="truename form-text" /></li>
+                        <li><label>性别:</label>
+                            <input type="radio" class="mr5" {% if userinfo.gender > 2 %} checked {% endif %} name="sex" value="3" />保密
+                            <input type="radio" class="ml10 mr5" {% if userinfo.gender == 1 %} checked {% endif %} name="sex" value="2" />男
+                            <input type="radio" class="ml10 mr5" {% if userinfo.gender == 2 %} checked {% endif %} name="sex" value="1" />女
+                        </li>
+                        <li class="bn"><label>&nbsp;</label><input type="submit" class="form-submit" value="保存修改" /></li>
+                    </ul>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 右边购物列表 End -->
+
+</div>
+<!-- 我的个人中心 End -->
+{% endblock %}

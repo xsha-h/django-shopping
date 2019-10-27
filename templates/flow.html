@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+<title>购物车页面</title>
+{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static "css/shop_gouwuche.css" %}" type="text/css" />
+<script src="{% static "js/jquery.js" %}"></script>
+<script type="text/javascript" src="{% static "js/jquery.goodnums.js" %}" ></script>
+<script type="text/javascript" src="{% static "js/shop_gouwuche.js" %}" ></script>
+<script type="text/javascript">
+var delete_f = function (id) {
+    var cart_id = id;
+
+    var csrftoken = $("input[name=csrfmiddlewaretoken]").val();
+    if(confirm('确认删除该商品吗？')){
+        $.post("http://127.0.0.1:8000/operations/delete_flow", {"cart_id": cart_id, "csrfmiddlewaretoken": csrftoken},
+        function (data) {
+            $(".shop_good_delete").remove("#cart"+id);
+            window.location.reload();
+        })
+    }
+};
+var add_c = function(id){
+    var commodity_id =  id;
+    var csrftoken = $("input[name=csrfmiddlewaretoken]").val();
+
+    if(confirm("确定将该商品收入收藏夹？")){
+        $.post("http://127.0.0.1:8000/operations/add_favor", {"commodity_id": commodity_id, "csrfmiddlewaretoken": csrftoken},
+        function (data) {
+            alert("收藏成功！")
+        })
+    }
+}
+$(function(){
+    $("#select_addr").bind("click", function(){
+        var checks = $("input[type=checkbox]:checked");
+        var commodity_ids = [];
+        var commodity_nums = [];
+        $.each(checks, function(index, item, obj){
+            var id = $(item).val();
+            commodity_ids.push(+id);
+
+            var num = $("#check"+id+" input").val();
+            commodity_nums.push(+num);
+        });
+        var url = "http://127.0.0.1:8000/operations/address/"+commodity_ids.toString()+"/"+commodity_nums.toString();
+        $.get(url, function (data){
+            window.location.href = url;
+        })
+    })
+})
+</script>
+{% endblock %}
+
+{% block location %}
+<!-- 面包屑 注意首页没有 -->
+<div class="shop_hd_breadcrumb">
+    <strong>当前位置：</strong>
+    <span>
+        <a href="">首页</a>&nbsp;›&nbsp;
+        <a href="">我的商城</a>&nbsp;›&nbsp;
+        <a href="">我的购物车</a>
+    </span>
+</div>
+<div class="clear"></div>
+<!-- 面包屑 End -->
+{% endblock %}
+
+{% block content %}
+<!-- 购物车 Body -->
+<div class="shop_gwc_bd clearfix">
+    <!-- 在具体实现的时候，根据情况选择其中一种情况 -->
+
+    {% if carts|length == 0 %}
+    <!-- 购物车为空 -->
+    <div class="empty_cart mb10">
+        <div class="message">
+            <p>购物车内暂时没有商品，您可以<a href="{% url "commodity:index" %}">去首页</a>挑选喜欢的商品</p>
+        </div>
+    </div>
+    <!-- 购物车为空 end-->
+    {% else %}
+    <!-- 购物车有商品 -->
+    <div class="shop_gwc_bd_contents clearfix">
+        <!-- 购物流程导航 -->
+        <div class="shop_gwc_bd_contents_lc clearfix">
+            <ul>
+                <li class="step_a hover_a">确认购物清单</li>
+                <li class="step_b">确认收货人资料及送货方式</li>
+                <li class="step_c">购买完成</li>
+            </ul>
+        </div>
+        <!-- 购物流程导航 End -->
+
+        <!-- 购物车列表 -->
+        <table>
+            <thead>
+                <tr>
+                    <th>选中</th>
+                    <th colspan="2"><span>商品</span></th>
+                    <th><span>名称</span></th>
+                    <th><span>单价(元)</span></th>
+                    <th><span>小计</span></th>
+                    <th><span>数量</span></th>
+                    <th><span>操作</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% csrf_token %}
+                {% for cart in carts %}
+                <tr id="cart{{ cart.id }}">
+                    <td><input type="hidden" name="cart_id" value="{{ cart.id }}"></td>
+                    <td class="gwc_list_pic"><a href="{% url "commodity:commodity_detail" cart.commodity.id %}"><img src="{{ cart.commodity.image.url }}" /></a></td>
+                    <td class="gwc_list_title"><a href="{% url "commodity:commodity_detail" cart.commodity.id %}">{{ cart.commodity.name }} </a></td>
+                    <td class="gwc_list_danjia"><span>￥<strong id="danjia_{{commodity.id}}">{{ cart.commodity.actual_price }}</strong></span></td>
+                    <td class="gwc_list_shuliang">
+                        <span id="check{{ cart.commodity.id }}">
+                            <a class="good_num_jian this_good_nums" did="danjia_{{cart.commodity.id}}" xid="xiaoji_{{cart.commodity.id}}" ty="-" valId="goods_{{cart.commodity.id}}" href="javascript:void(0);">-</a>
+                            <input type="text" value="{{ cart.numbers }}" id="goods_{{cart.commodity.id}}" class="good_nums" />
+                            <a href="javascript:void(0);" did="danjia_{{cart.commodity.id}}" xid="xiaoji_{{cart.commodity.id}}" ty="+" class="good_num_jia this_good_nums" valId="goods_{{cart.commodity.id}}">+</a>
+                        </span>
+                    </td>
+                    <td class="gwc_list_xiaoji"><span>￥<strong id="xiaoji_{{cart.commodity.id}}" class="good_xiaojis">{% widthratio cart.commodity.actual_price 1 cart.numbers %}</strong></span></td>
+                    <td class="gwc_list_caozuo">
+                        <a href="javascript:void(0);" onclick="add_c({{ cart.commodity.id }})">收藏</a>
+                        <a href="javascript:void(0);" class="shop_good_delete" onclick="delete_f({{ cart.id }})">删除</a>
+                    </td>
+                    <td><input type="checkbox" value="{{ cart.commodity.id }}"></td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="6">
+                        <div class="gwc_foot_zongjia">商品总价(不含运费)<span>￥<strong id="good_zongjia">{{ all_price }}</strong></span></div>
+                        <div class="clear"></div>
+                        <div class="gwc_foot_links">
+                            <a href="{% url "commodity:index" %}" class="go">继续购物</a>
+                            <a href="javascript:void(0);" id="select_addr" class="op">确认并填写订单</a>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+        <!-- 购物车列表 End -->
+    </div>
+    <!-- 购物车有商品 end -->
+    {% endif %}
+
+</div>
+<!-- 购物车 Body End -->
+{% endblock %}

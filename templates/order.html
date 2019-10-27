@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+<title>订单页面</title>
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/shop_manager.css" %}" type="text/css" />
+    <script>
+
+    </script>
+{% endblock %}
+
+{% block location %}
+<!-- 面包屑 注意首页没有 -->
+<div class="shop_hd_breadcrumb">
+    <strong>当前位置：</strong>
+    <span>
+        <a href="">首页</a>&nbsp;›&nbsp;
+        <a href="">我的商城</a>&nbsp;›&nbsp;
+        <a href="">已买到商品</a>
+    </span>
+</div>
+<div class="clear"></div>
+<!-- 面包屑 End -->
+{% endblock %}
+
+{% block content %}
+<!-- 我的个人中心 -->
+<div class="shop_member_bd clearfix">
+    <!-- 左边导航 -->
+    <div class="shop_member_bd_left clearfix">
+
+        <div class="shop_member_bd_left_pic">
+            <a href="javascript:void(0);"><img src="{% static "images/avatar.png" %}" /></a>
+        </div>
+        <div class="clear"></div>
+
+        <dl>
+            <dt>我的交易</dt>
+            <dd><span><a href="">已购买商品</a></span></dd>
+            <dd><span><a href="">我的收藏</a></span></dd>
+            <dd><span><a href="">评价管理</a></span></dd>
+        </dl>
+
+        <dl>
+            <dt>我的账户</dt>
+            <dd><span><a href="">个人资料</a></span></dd>
+            <dd><span><a href="">收货地址</a></span></dd>
+        </dl>
+
+    </div>
+    <!-- 左边导航 End -->
+
+    <!-- 右边购物列表 -->
+    <div class="shop_member_bd_right clearfix">
+
+        <div class="shop_meber_bd_good_lists clearfix">
+            <div class="title"><h3>订单列表</h3></div>
+            <table>
+                <thead class="tab_title">
+                    <th style="width:410px;"><span>商品信息</span></th>
+                    <th style="width:100px;"><span>单价</span></th>
+                    <th style="width:80px;"><span>数量</span></th>
+                    <th style="width:100px;"><span>订单总价</span></th>
+                    <th style="width:115px;"><span>状态与操作</span></th>
+                </thead>
+                <tbody>
+                    {% for order in order_list %}
+                    <tr><td colspan="5">
+                        <table class="good">
+                            <thead >
+                                <tr><th colspan="6">
+                                    <span><strong>订单号码：</strong>{{ order.id }}</span>
+                                </th></tr>
+                            </thead>
+                            <tbody>
+                                {% for commodity in order.commoditys %}
+                                    {% if forloop.counter == 1 %}
+                                    <tr>
+                                        <td class="dingdan_pic"><img src="{{ commodity.image.url }}" /></td>
+                                        <td class="dingdan_title"><span><a href="">{{ commodity.name }}</a></span><br />{{ commodity.detail }} </td>
+                                        <td class="dingdan_danjia">￥<strong>{{ commodity.actual_price }}</strong></td>
+                                        <td class="dingdan_shuliang">{{ commodity.nums }}</td>
+                                        <td class="dingdan_zongjia" rowspan="{{ order.commoditys|length }}">￥<strong>{{ order.all_price }}</strong><br />(免运费)</td>
+                                        <td class="digndan_caozuo"><a href="">{{ order.state }}</a></td>
+                                    </tr>
+                                    {% else %}
+                                     <tr>
+                                        <td class="dingdan_pic"><img src="{{ commodity.image.url }}" /></td>
+                                        <td class="dingdan_title"><span><a href="">{{ commodity.name }}</a></span><br />{{ commodity.detail }} </td>
+                                        <td class="dingdan_danjia">￥<strong>{{ commodity.actual_price }}</strong></td>
+                                        <td class="dingdan_shuliang">{{ commodity.nums }}</td>
+                                        <td class="digndan_caozuo"><a href="">{{ order.state }}</a></td>
+                                    </tr>
+                                    {% endif %}
+
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- 右边购物列表 End -->
+
+</div>
+<!-- 我的个人中心 End -->
+{% endblock %}
